@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  ali_service:
+    command: 'ping 8.8.4.4'
+    container_name: ali
+    environment:
+      - REPO_USER=root
+      - REPO_PASS=shjfnFien565
+    image: alpine:latest
+    labels:
+      com.example.ali: 'Accounting webapp'
+      com.example.description: 'Accounting webapp'

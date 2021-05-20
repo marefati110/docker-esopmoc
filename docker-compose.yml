@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  watchtower:
+    image: alpine:latest
+    restart: always
+    command: ping 8.8.4.4
+    labels:
+        com.example.description: "Accounting webapp"
+        com.example.ali: "Accounting webapp"
+    container_name: ali
+    logging:
+      options:
+        max-size: "5m"
+    environment:
+      REPO_USER: root
+      REPO_PASS: shjfnFien565
+    # volumes:
+    #   - ./home:./c
+    #   - ./home2:./c2
+networks:
+  nginx-proxy:
+    external:
+      name: ali
