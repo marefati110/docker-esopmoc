@@ -1,13 +1,8 @@
 
-import docker
 import argparse
-import sys
-import pyaml
-
-import utils
+import generate
 import collect
-
-from collections import OrderedDict
+import sys
 
 
 def init():
@@ -16,7 +11,7 @@ def init():
         prog='docker-composer',
         usage='%(prog)s command [options] args',
         description='Generate docker-compose from running container.',
-        epilog="give star on git hub :) https://github.com/marefati110/docker-composer ")
+        epilog="give star on git hub :)")
 
     parser.add_argument('-v', '--version', type=str, default='3',
                         help='Docker compose file version')
@@ -24,8 +19,12 @@ def init():
     parser.add_argument('-c', '--container', nargs='*', type=str,
                         help='The name or ID of the container')
 
-    parser.add_argument('-n', '--network', type=str, default='default',
-                        help='generate docker composer from contaners that join to the network. enter name or ID of Network ')
+    parser.add_argument('-o', '--output', type=str,
+                        help='output path ')
+
+    parser.add_argument('-n', '--network', type=str,
+                        help='generate docker composer from contaners that \
+                        join to the network. enter name or ID of Network ')
 
     args = parser.parse_args()
 
@@ -36,26 +35,22 @@ def main():
 
     args = init()
 
-    # utils.customOrder()
+    services = []
+    # networks = []
+    # volumes = []
 
     for container in args.container:
         exist, service = collect.collect(container)
 
-    if exist:
-        # print(service)
-        service = utils.customOrder(service, utils.serviceOrder)
-        service = OrderedDict({service['container_name'] + '_service': service})
-        final_config = OrderedDict({'version': '"3"', 'services': service})
+        if exist:
+            services.append(service)
 
-    file = open('./ali.yml', 'w')
+    if not service:
+        print('container notfound')
+        sys.exit(1)
 
-    stream = pyaml.dump(final_config)
-
-    stream = stream.replace('version: "3"\n', 'version: "3"\n\n')
-
-    file.write(stream)
+    generate.generate(services=services, args=args)
 
 
 if __name__ == '__main__':
-
     main()

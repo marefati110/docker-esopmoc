@@ -21,16 +21,15 @@ ignoreLables = [
 serviceOrder = [
     'image',
     'container_name',
+    'restart',
     'command',
-    'restart,'
     'networks',
     'labels',
     'logging',
-    'environment',
     'ports',
-    'volumes'
+    'environment',
+    'volumes',
 ]
-
 
 
 def customOrder(data: dict, items: list):
@@ -42,7 +41,6 @@ def customOrder(data: dict, items: list):
             new_data[i] = data[i]
         except:
             pass
-
 
     for j in data.keys():
         if j not in items:
@@ -63,7 +61,7 @@ def find(source: dict, path: str):
         except:
             return None
 
-    return d
+    return d if d else None
 
 
 def find_and_set(source: dict, source_path: str, dest: dict, dest_path: str):
