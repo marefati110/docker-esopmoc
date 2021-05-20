@@ -21,7 +21,7 @@ ignoreLables = [
 serviceOrder = [
     'image',
     'container_name',
-    'command'
+    'command',
     'restart,'
     'networks',
     'labels',
@@ -41,6 +41,7 @@ def customOrder(data: dict, items: list):
             new_data[i] = data[i]
         except:
             pass
+
 
     for j in data.keys():
         if j not in items:
