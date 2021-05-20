@@ -1,6 +1,8 @@
 import argparse
 import sys
 
+from collections import OrderedDict
+
 
 ignoreEvn = ['PATH']
 
@@ -15,6 +17,36 @@ ignoreLables = [
     'com.docker.compose.config-hash',
     "com.docker.compose.version",
 ]
+
+serviceOrder = [
+    'image',
+    'container_name',
+    'command'
+    'restart,'
+    'networks',
+    'labels',
+    'logging',
+    'environment',
+    'ports',
+    'volumes'
+]
+
+
+def customOrder(data: dict, items: list):
+
+    new_data = OrderedDict()
+
+    for i in items:
+        try:
+            new_data[i] = data[i]
+        except:
+            pass
+
+    for j in data.keys():
+        if j not in items:
+            new_data[j] = data[j]
+
+    return new_data
 
 
 def find(source: dict, path: str):
@@ -53,5 +85,3 @@ def find_and_set(source: dict, source_path: str, dest: dict, dest_path: str):
         counter += 1
 
     return True
-
-
