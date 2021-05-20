@@ -1,10 +1,14 @@
 version: "3.8"
 
 services:
+  
   watchtower:
     image: alpine:latest
     restart: always
     command: ping 8.8.4.4
+    ports: 
+      - 5050:3030
+      - 9090:20201
     labels:
         com.example.description: "Accounting webapp"
         com.example.ali: "Accounting webapp"

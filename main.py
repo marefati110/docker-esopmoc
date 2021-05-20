@@ -36,12 +36,16 @@ def main():
 
     args = init()
 
+    # utils.customOrder()
+
     for container in args.container:
-        exist, config = collect.collect(container)
+        exist, service = collect.collect(container)
 
     if exist:
-        config = {config['container_name'] + '_service': config}
-        final_config = OrderedDict({'version': '"3"', 'services': config})
+        # print(service)
+        service = utils.customOrder(service, utils.serviceOrder)
+        service = OrderedDict({service['container_name'] + '_service': service})
+        final_config = OrderedDict({'version': '"3"', 'services': service})
 
     file = open('./ali.yml', 'w')
 
