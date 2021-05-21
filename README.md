@@ -18,6 +18,13 @@ docker-esopmoc generate docker-compose file from running container just vice ver
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
+### reuirements
+
+```
+python > 3.5
+pip = 3
+```
+
 ### Installing
 
 ```bash
