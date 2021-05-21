@@ -5,9 +5,7 @@ import utils
 import pyaml
 
 
-def generate(services, networks=[], volumes=[], args=[]):
-
-    # print(services)
+def process(services, networks=[], volumes=[], args=[]):
 
     agg_services = OrderedDict()
 
@@ -15,12 +13,18 @@ def generate(services, networks=[], volumes=[], args=[]):
         service = utils.customOrder(service, utils.serviceOrder)
         agg_services[service['container_name'] + '_service'] = service
 
-    config = OrderedDict({'version': args.version, 'services': agg_services})
+    config = OrderedDict(
+        {'version': f"'{args.version}'",
+         'services': agg_services,
+         'networks': networks
+         }
+    )
 
     yml = pyaml.dump(config)
 
-    if (args.output):
-        file = open(args.output, 'w')
-        file.write(yml)
-    else:
-        print(yml)
+    return yml
+
+
+def write(yml, output):
+    file = open(output, 'w')
+    file.write(yml)

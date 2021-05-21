@@ -1,8 +1,26 @@
 import docker
 import utils
-
+import sys
+import generate
 
 client = docker.from_env()
+
+
+def find_container_by_network(network_name):
+
+    containers = client.containers.list()
+
+    found = []
+    for container in containers:
+
+        attribute = container.attrs
+
+        networks = attribute['NetworkSettings']['Networks'].keys()
+
+        if network_name in networks:
+            found.append(container.id)
+
+    return found
 
 
 def collect_Container_data(c):
@@ -11,8 +29,10 @@ def collect_Container_data(c):
         'image': '',
         'container_name': '',
         'restart': '',
+        'networks': {},
         'command': '',
         'labels': {},
+        'volumes': [],
         'environment': [],
         'ports': []
     }
@@ -43,6 +63,14 @@ def collect_Container_data(c):
         data['command'] = " ".join(
             attributes['Config']['Cmd'])
 
+    # set networks
+    networks = utils.find(attributes, 'NetworkSettings.Networks')
+    if networks:
+        data['networks'] = [x for x in networks.keys()]
+
+    # ser volumes
+    utils.find_and_set(attributes, 'HostConfig.Binds', data, 'volumes')
+
     # set environments
     c_env = utils.find(attributes, 'Config.Env')
     if c_env:
@@ -70,10 +98,11 @@ def collect_Container_data(c):
     return filtered_data
 
 
-def collect(container_identifier):
+def collect_by_identifier(container_identifier):
 
     exist = False
     data = None
+    networks = {}
 
     containers = client.containers.list()
 
@@ -84,8 +113,42 @@ def collect(container_identifier):
 
         if found:
             exist = True
+
             c = client.containers.get(container.id)
 
             data = collect_Container_data(c)
 
-    return exist, data
+            # find network driver
+
+            if data['networks']:
+
+                networklist = client.networks.list()
+
+                for network in networklist:
+                    if network.attrs['Name'] in data['networks']:
+                        networks[network.attrs['Name']] = {
+                            'external': (not network.attrs['Internal'])}
+
+    return (exist, data, networks)
+
+
+def collect(containers):
+
+    services = []
+    networks = {}
+
+    for container in containers:
+
+        exist, c_service, c_networks = collect_by_identifier(container)
+
+        if exist:
+            services.append(c_service)
+
+            if c_networks:
+                networks.update(c_networks)
+
+    if not c_service:
+        print('container notfound')
+        sys.exit(1)
+
+    return (services, networks)

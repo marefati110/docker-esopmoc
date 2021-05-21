@@ -22,6 +22,10 @@ def init():
     parser.add_argument('-o', '--output', type=str,
                         help='output path ')
 
+    parser.add_argument('-b', '--beautiful', type=bool,
+                        default=True,
+                        help='ignore some data default is True')
+
     parser.add_argument('-n', '--network', type=str,
                         help='generate docker composer from contaners that \
                         join to the network. enter name or ID of Network ')
@@ -34,22 +38,31 @@ def init():
 def main():
 
     args = init()
+    print(args)
+    yml = ''
 
-    services = []
-    # networks = []
-    # volumes = []
+    if args.container:
 
-    for container in args.container:
-        exist, service = collect.collect(container)
+        services, networks = collect.collect(args.container)
 
-        if exist:
-            services.append(service)
+        yml = generate.process(services=services, args=args, networks=networks)
 
-    if not service:
-        print('container notfound')
+    elif (args.network):
+
+        containers = collect.find_container_by_network(args.network)
+
+        services, networks = collect.collect(containers)
+
+        yml = generate.process(services=services, args=args, networks=networks)
+
+    else:
+        print('-n or -c required')
         sys.exit(1)
 
-    generate.generate(services=services, args=args)
+    if (args.output):
+        generate.write(yml, args.output)
+    else:
+        print(yml)
 
 
 if __name__ == '__main__':
