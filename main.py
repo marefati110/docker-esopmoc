@@ -38,7 +38,6 @@ def init():
 def main():
 
     args = init()
-    print(args)
     yml = ''
 
     if args.container:
