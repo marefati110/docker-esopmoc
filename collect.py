@@ -77,7 +77,7 @@ def collect_Container_data(c):
         for env in c_env:
             for ignore in utils.ignoreEvn:
                 if ignore not in env:
-                    print(env)
+                    print(c.name, env)
                     key, value = env.split('=')
                     data['environment'].append({key: value})
 
