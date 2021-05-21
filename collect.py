@@ -77,8 +77,9 @@ def collect_Container_data(c):
         for env in c_env:
             for ignore in utils.ignoreEvn:
                 if ignore not in env:
-                    print(c.name, env)
-                    key, value = env.split('=')
+                    equal_index = env.index('=')
+                    key = env[:equal_index]
+                    value = env[equal_index+1:]
                     data['environment'].append({key: value})
 
     # set exposed port
