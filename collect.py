@@ -147,8 +147,8 @@ def collect(containers):
             if c_networks:
                 networks.update(c_networks)
 
-    if not c_service:
-        print('container notfound')
-        sys.exit(1)
+        if not c_service:
+            print('container notfound')
+            sys.exit(1)
 
     return (services, networks)
