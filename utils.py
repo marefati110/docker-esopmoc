@@ -6,28 +6,6 @@ from collections import OrderedDict
 
 ignoreEvn = ['PATH']
 
-ignoreLables = [
-    "com.docker.compose.container-number",
-    "com.docker.compose.config-hash",
-    "com.docker.compose.oneoff",
-    "com.docker.compose.project",
-    "com.docker.compose.project.config_files",
-    "com.docker.compose.project.working_dir",
-    "com.docker.compose.service",
-    'com.docker.compose.config-hash',
-    "com.docker.compose.version",
-    'license',
-    'org.label-schema.build-date',
-    'org.label-schema.license',
-    'org.label-schema.name',
-    'org.label-schema.schema-version',
-    'org.label-schema.url',
-    'org.label-schema.vcs-url',
-    'org.label-schema.version',
-    'org.opencontainers.image.created',
-    'org.opencontainers.image.title',
-    'org.opencontainers.image.vendor',
-]
 
 serviceOrder = [
     'image',

@@ -55,8 +55,7 @@ def collect_Container_data(c):
     c_labels: dict = attributes['Config']['Labels']
     if c_labels:
         for key in c_labels.keys():
-            if key not in utils.ignoreLables:
-                data['labels'][key] = c_labels[key]
+            data['labels'][key] = c_labels[key]
 
     # set container CMD
     if utils.find(attributes, 'Config.Cmd'):
