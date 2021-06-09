@@ -27,6 +27,14 @@ pip = 3
 
 ### Installing
 
+#### auto install
+
+```bash 
+curl https://raw.githubusercontent.com/marefati110/docker-esopmoc/main/install.sh | sh
+```
+
+#### manual install
+
 ```bash
 git clone https://github.com/marefati110/docker-esopmoc.git
 cd docker-esopmoc
