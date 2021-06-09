@@ -35,25 +35,31 @@ pip3 install -r ./requirement.txt
 
 ## 🎈 Usage <a name="usage"></a>
 
+### help
+
+```bash
+python3 ./docker-esopmoc.py -h
+```
+
 ### general usage
 
 ```bash
 python3 ./docker-esopmoc.py options args
 ```
 
-#### generate by container name
+#### generate docker-compose.yaml by container name
 
 ```bash
 python3 ./docker-esopmoc.py -c mongo mysql
 ```
 
-#### generate by container id
+#### generate docker-compose.yaml by container id
 
 ```bash
 python3 ./docker-esopmoc.py -c 94409bee9f87 9c70eed2f9c6
 ```
 
-#### generate by network name
+#### generate docker-compose.yaml by network name
 
 ```bash
 python3 ./docker-esopmoc.py -n nginx
