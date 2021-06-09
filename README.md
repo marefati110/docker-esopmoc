@@ -28,7 +28,7 @@ pip = 3
 ### Installing
 
 ```bash
-git clone https://github.com/marefati110/docker-composer.git
+git clone https://github.com/marefati110/docker-esopmoc.git
 cd docker-esopmoc
 pip3 install -r ./requirement.txt
 ```
